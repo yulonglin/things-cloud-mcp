@@ -175,6 +175,8 @@ See **[docs/skills.md](docs/skills.md)** for a step-by-step guide to creating yo
 
 All `/api/*` endpoints require `Authorization: Bearer <API_KEY>` when `API_KEY` is set.
 
+See **[docs/endpoints-and-things-cloud.md](docs/endpoints-and-things-cloud.md)** for how the REST and MCP surfaces sync from Things Cloud history, answer reads from the local SQLite mirror, and commit writes back to the cloud.
+
 | Endpoint | Description |
 |----------|-------------|
 | `GET /` | Health check |
