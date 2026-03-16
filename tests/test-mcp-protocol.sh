@@ -61,7 +61,7 @@ check "has tools capability" "$HAS_TOOLS" "true"
 echo "--- List Tools ---"
 RESP=$(mcp_raw '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}')
 TOOL_COUNT=$(echo "$RESP" | python3 -c "import sys,json; r=json.loads(sys.stdin.read()); print(len(r.get('result',{}).get('tools',[])))" 2>/dev/null || echo "0")
-check "tool count is 33" "$TOOL_COUNT" "33"
+check "tool count is 36" "$TOOL_COUNT" "36"
 
 # Verify a few key tools exist
 HAS_CREATE=$(echo "$RESP" | python3 -c "
@@ -79,6 +79,14 @@ tools=[t['name'] for t in r.get('result',{}).get('tools',[])]
 print('true' if 'things_list_today' in tools else 'false')
 " 2>/dev/null || echo "false")
 check "has things_list_today" "$HAS_LIST" "true"
+
+HAS_UPCOMING=$(echo "$RESP" | python3 -c "
+import sys,json
+r=json.loads(sys.stdin.read())
+tools=[t['name'] for t in r.get('result',{}).get('tools',[])]
+print('true' if 'things_list_upcoming' in tools else 'false')
+" 2>/dev/null || echo "false")
+check "has things_list_upcoming" "$HAS_UPCOMING" "true"
 
 HAS_HEADING=$(echo "$RESP" | python3 -c "
 import sys,json

@@ -29,11 +29,11 @@ The server performs an initial sync at startup and now exits if it cannot establ
                                                      Connector
 ```
 
-## MCP tools (33)
+## MCP tools (36)
 
 Once connected, Claude can do pretty much everything you'd do in the Things app:
 
-- **Browse your views** — Today, Inbox, All Tasks, by Project, by Area, Completed (with date filters)
+- **Browse your views** — Today, Inbox, Anytime, Someday, Upcoming, All Tasks, by Project, by Area, Completed (with date filters)
 - **Look things up** — get any task, area, or tag; search by title or note content
 - **Create** — tasks (with notes, dates, deadlines, project, tags, recurrence), projects, areas, tags, headings, and checklist items
 - **Edit** — title, notes, dates, deadlines, project, area, tags, and recurrence
@@ -50,6 +50,9 @@ Once connected, Claude can do pretty much everything you'd do in the Things app:
 |------|-------------|------------|
 | `things_list_today` | Tasks scheduled for today | `limit`, `offset` |
 | `things_list_inbox` | Tasks in the inbox | `limit`, `offset` |
+| `things_list_anytime` | Tasks in Anytime | `limit`, `offset` |
+| `things_list_someday` | Tasks in Someday | `limit`, `offset` |
+| `things_list_upcoming` | Tasks in Upcoming | `limit`, `offset` |
 | `things_list_all_tasks` | All open tasks | `limit`, `offset` |
 | `things_list_projects` | All projects | `limit`, `offset` |
 | `things_list_areas` | All areas | `limit`, `offset` |
@@ -179,6 +182,9 @@ All `/api/*` endpoints require `Authorization: Bearer <API_KEY>` when `API_KEY` 
 | `GET /api/sync` | Trigger sync, returns change count |
 | `GET /api/tasks/today` | Tasks scheduled for today. Optional query params: `limit`, `offset` |
 | `GET /api/tasks/inbox` | Tasks in the inbox. Optional query params: `limit`, `offset` |
+| `GET /api/tasks/anytime` | Tasks in Anytime. Optional query params: `limit`, `offset` |
+| `GET /api/tasks/someday` | Tasks in Someday. Optional query params: `limit`, `offset` |
+| `GET /api/tasks/upcoming` | Tasks in Upcoming. Optional query params: `limit`, `offset` |
 | `GET /api/projects` | All projects. Optional query params: `limit`, `offset` |
 | `GET /api/areas` | All areas. Optional query params: `limit`, `offset` |
 | `GET /api/tags` | All tags. Optional query params: `limit`, `offset` |
