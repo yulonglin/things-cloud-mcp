@@ -885,7 +885,7 @@ func countStatus(checks []smokeCheck, status string) int {
 // ---------------------------------------------------------------------------
 
 func newMCPHandler() http.Handler {
-	s := server.NewMCPServer("Things Cloud", "1.0.0")
+	s := server.NewMCPServer("Things Cloud", "1.1.0")
 
 	// --- Read tools ---
 

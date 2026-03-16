@@ -54,7 +54,7 @@ SERVER_NAME=$(echo "$RESP" | python3 -c "import sys,json; r=json.loads(sys.stdin
 SERVER_VER=$(echo "$RESP" | python3 -c "import sys,json; r=json.loads(sys.stdin.read()); print(r.get('result',{}).get('serverInfo',{}).get('version',''))" 2>/dev/null || echo "")
 HAS_TOOLS=$(echo "$RESP" | python3 -c "import sys,json; r=json.loads(sys.stdin.read()); print('true' if 'tools' in r.get('result',{}).get('capabilities',{}) else 'false')" 2>/dev/null || echo "false")
 check "server name" "$SERVER_NAME" "Things Cloud"
-check "server version" "$SERVER_VER" "1.0.0"
+check "server version" "$SERVER_VER" "1.1.0"
 check "has tools capability" "$HAS_TOOLS" "true"
 
 # 2. List tools

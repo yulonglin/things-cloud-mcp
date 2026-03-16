@@ -267,7 +267,7 @@ Tests the JSON-RPC protocol layer independently from tool logic.
 | # | Check |
 |---|-------|
 | 1 | Server name is "Things Cloud" |
-| 2 | Server version is "1.0.0" |
+| 2 | Server version is "1.1.0" |
 | 3 | Capabilities include tools |
 
 ### List tools
