@@ -399,8 +399,13 @@ func main() {
 		log.Println("Read-only mode (default): set ENABLE_WRITES=true to enable write tools")
 	}
 
+	dataDir := os.Getenv("DATA_DIR")
+	if dataDir == "" {
+		dataDir = "/data"
+	}
+
 	var err error
-	syncer, err = sync.Open("/data/things.db", client)
+	syncer, err = sync.Open(dataDir+"/things.db", client)
 	if err != nil {
 		log.Fatalf("failed to open sync database: %v", err)
 	}

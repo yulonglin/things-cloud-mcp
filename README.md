@@ -244,6 +244,7 @@ go test -v ./...
 | `PORT` | `8080` | Server port |
 | `BIND_HOST` | `127.0.0.1` | Bind address (set `0.0.0.0` to expose) |
 | `ENABLE_WRITES` | `false` | Set `true` to register write tools and endpoints |
+| `DATA_DIR` | `/data` | Directory for SQLite database (`things.db`) |
 | `API_KEY` | (none) | Bearer token for `/api/*` endpoints |
 | `DEBUG` | `false` | Log HTTP requests/responses (**includes credentials**) |
 
