@@ -425,11 +425,13 @@ func main() {
 	http.HandleFunc("/api/areas", authMiddleware(handleAreas))
 	http.HandleFunc("/api/tags", authMiddleware(handleTags))
 
-	// Write endpoints
-	http.HandleFunc("/api/tasks/create", authMiddleware(handleCreateTask))
-	http.HandleFunc("/api/tasks/complete", authMiddleware(handleCompleteTask))
-	http.HandleFunc("/api/tasks/trash", authMiddleware(handleTrashTask))
-	http.HandleFunc("/api/tasks/edit", authMiddleware(handleEditTask))
+	// Write endpoints (disabled when READ_ONLY=true)
+	if os.Getenv("READ_ONLY") != "true" {
+		http.HandleFunc("/api/tasks/create", authMiddleware(handleCreateTask))
+		http.HandleFunc("/api/tasks/complete", authMiddleware(handleCompleteTask))
+		http.HandleFunc("/api/tasks/trash", authMiddleware(handleTrashTask))
+		http.HandleFunc("/api/tasks/edit", authMiddleware(handleEditTask))
+	}
 
 	// Debug endpoint — dump raw write history items
 	http.HandleFunc("/api/debug/history", debugAuthMiddleware(func(w http.ResponseWriter, r *http.Request) {

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -1090,7 +1091,9 @@ func newMCPHandler() http.Handler {
 		),
 	), mcpGetTag)
 
-	// --- Write tools ---
+	// --- Write tools (skipped when READ_ONLY=true) ---
+
+	if os.Getenv("READ_ONLY") != "true" {
 
 	s.AddTool(mcp.NewTool("things_create_task",
 		mcp.WithDescription("Create a new task in Things"),
@@ -1328,11 +1331,17 @@ func newMCPHandler() http.Handler {
 		),
 	), mcpDeleteChecklistItem)
 
-	// --- Diagnostic tools ---
+	} // end READ_ONLY gate
+
+	// --- Diagnostic tools (also gated — smoke test creates/deletes tasks) ---
+
+	if os.Getenv("READ_ONLY") != "true" {
 
 	s.AddTool(mcp.NewTool("things_smoke_test",
 		mcp.WithDescription("Run a smoke test that creates a task, verifies read/edit/complete, then cleans up. Returns pass/fail results for each check."),
 	), mcpSmokeTest)
+
+	} // end READ_ONLY gate for diagnostics
 
 	return server.NewStreamableHTTPServer(s,
 		server.WithEndpointPath("/mcp"),
