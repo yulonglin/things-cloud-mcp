@@ -1,8 +1,13 @@
 # Things Cloud
 
-A Go server and SDK for the [Things 3](https://culturedcode.com/things/) cloud API. Gives [Claude](https://claude.ai) (and other MCP-compatible AI assistants) full read/write access to your task manager.
+A Go server and SDK for the [Things 3](https://culturedcode.com/things/) cloud API. Gives [Claude](https://claude.ai) (and other MCP-compatible AI assistants) access to your task manager.
 
 Built on a reverse-engineered, unofficial SDK — there is no official API documentation from Cultured Code.
+
+> **Fork changes** ([yulonglin/things-cloud-mcp](https://github.com/yulonglin/things-cloud-mcp)):
+> - **Read-only by default** — write tools and REST endpoints require `ENABLE_WRITES=true`
+> - **Localhost binding** — server binds to `127.0.0.1` by default (`BIND_HOST=0.0.0.0` to expose)
+> - **Debug credential warning** — logs a warning when `DEBUG=true` since it dumps Authorization headers
 
 ## What it does
 
@@ -223,10 +228,24 @@ API_KEY=your-key ./tests/test-api.sh  # All REST endpoints (18 checks)
 go build -v -o things-server ./server/
 export THINGS_USERNAME='...' THINGS_PASSWORD='...'
 mkdir -p /data
-./things-server
+./things-server                          # read-only, localhost:8080
+ENABLE_WRITES=true ./things-server       # read + write
+BIND_HOST=0.0.0.0 ./things-server       # expose to network
 
 go test -v ./...
 ```
+
+### Environment variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `THINGS_USERNAME` | (required) | Things Cloud account email |
+| `THINGS_PASSWORD` | (required) | Things Cloud account password |
+| `PORT` | `8080` | Server port |
+| `BIND_HOST` | `127.0.0.1` | Bind address (set `0.0.0.0` to expose) |
+| `ENABLE_WRITES` | `false` | Set `true` to register write tools and endpoints |
+| `API_KEY` | (none) | Bearer token for `/api/*` endpoints |
+| `DEBUG` | `false` | Log HTTP requests/responses (**includes credentials**) |
 
 ## Credits
 
