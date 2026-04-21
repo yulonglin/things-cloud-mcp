@@ -382,8 +382,20 @@ func main() {
 		port = "8080"
 	}
 
+	host := os.Getenv("BIND_HOST")
+	if host == "" {
+		host = "127.0.0.1" // localhost only by default — set BIND_HOST=0.0.0.0 to expose
+	}
+
 	client = things.New(things.APIEndpoint, username, password)
 	client.Debug = os.Getenv("DEBUG") == "true"
+
+	if client.Debug {
+		log.Println("WARNING: DEBUG=true — HTTP requests/responses including Authorization headers will be logged")
+	}
+	if os.Getenv("READ_ONLY") == "true" {
+		log.Println("Read-only mode: write tools and endpoints are disabled")
+	}
 
 	var err error
 	syncer, err = sync.Open("/data/things.db", client)
@@ -563,9 +575,9 @@ func main() {
 
 	shutdownCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
-	server := &http.Server{Addr: ":" + port}
+	server := &http.Server{Addr: host + ":" + port}
 
-	log.Printf("Starting server on :%s", port)
+	log.Printf("Starting server on %s:%s", host, port)
 	if err := serveWithGracefulShutdown(shutdownCtx, server, shutdownTimeout); err != nil {
 		log.Fatal(err)
 	}
