@@ -1091,9 +1091,9 @@ func newMCPHandler() http.Handler {
 		),
 	), mcpGetTag)
 
-	// --- Write tools (skipped when READ_ONLY=true) ---
+	// --- Write tools (require ENABLE_WRITES=true) ---
 
-	if os.Getenv("READ_ONLY") != "true" {
+	if os.Getenv("ENABLE_WRITES") == "true" {
 
 	s.AddTool(mcp.NewTool("things_create_task",
 		mcp.WithDescription("Create a new task in Things"),
@@ -1335,7 +1335,7 @@ func newMCPHandler() http.Handler {
 
 	// --- Diagnostic tools (also gated — smoke test creates/deletes tasks) ---
 
-	if os.Getenv("READ_ONLY") != "true" {
+	if os.Getenv("ENABLE_WRITES") == "true" {
 
 	s.AddTool(mcp.NewTool("things_smoke_test",
 		mcp.WithDescription("Run a smoke test that creates a task, verifies read/edit/complete, then cleans up. Returns pass/fail results for each check."),

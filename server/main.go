@@ -393,8 +393,10 @@ func main() {
 	if client.Debug {
 		log.Println("WARNING: DEBUG=true — HTTP requests/responses including Authorization headers will be logged")
 	}
-	if os.Getenv("READ_ONLY") == "true" {
-		log.Println("Read-only mode: write tools and endpoints are disabled")
+	if os.Getenv("ENABLE_WRITES") == "true" {
+		log.Println("Write mode: write tools and endpoints are enabled")
+	} else {
+		log.Println("Read-only mode (default): set ENABLE_WRITES=true to enable write tools")
 	}
 
 	var err error
@@ -437,8 +439,8 @@ func main() {
 	http.HandleFunc("/api/areas", authMiddleware(handleAreas))
 	http.HandleFunc("/api/tags", authMiddleware(handleTags))
 
-	// Write endpoints (disabled when READ_ONLY=true)
-	if os.Getenv("READ_ONLY") != "true" {
+	// Write endpoints (require ENABLE_WRITES=true)
+	if os.Getenv("ENABLE_WRITES") == "true" {
 		http.HandleFunc("/api/tasks/create", authMiddleware(handleCreateTask))
 		http.HandleFunc("/api/tasks/complete", authMiddleware(handleCompleteTask))
 		http.HandleFunc("/api/tasks/trash", authMiddleware(handleTrashTask))
